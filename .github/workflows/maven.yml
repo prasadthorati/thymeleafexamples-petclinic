@@ -35,7 +35,7 @@ jobs:
     - name: push to ecr 
       uses: mr-smithers-excellent/docker-build-push@v5
       with:
-        image: public.ecr.aws/e8e2a7i6/demo_gradle
+        image: demo_gradle
         registry: public.ecr.aws/e8e2a7i6/demo_gradle
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
