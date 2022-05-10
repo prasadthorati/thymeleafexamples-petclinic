@@ -23,7 +23,7 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
-      run: mvn -B build --file pom.xml
+      run: mvn build --file pom.xml
     #- name: push to dockerhub
       #uses: mr-smithers-excellent/docker-build-push@v5
       #with:
