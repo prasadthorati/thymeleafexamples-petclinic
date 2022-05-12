@@ -31,7 +31,7 @@ jobs:
       run: |
             export COMMIT_ID=$(git rev-parse --short HEAD)
             echo commitId:$COMMIT_ID
-            echo ${{ secrets.NSDL_USER_PASS}} | sudo -S build -t petclinic:$COMMIT_ID .
+            echo ${{ secrets.NSDL_USER_PASS}} | sudo -S docker build -t petclinic:$COMMIT_ID .
     #- name: Build with Maven
       #run: mvn package --file pom.xml
     #- name: push to dockerhub
