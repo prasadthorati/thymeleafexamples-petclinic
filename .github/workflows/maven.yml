@@ -11,27 +11,31 @@ jobs:
   build:
 
     runs-on: self-hosted
-
+    strategy:
+      matrix:
+        maven: [ '3.6.3' ]
+        java: [ '11']
     steps:
-    - uses: actions/checkout@v3
-    - id: TAG
-      run: |
+      - name: Setup Maven Action
+        uses: s4u/setup-maven-action@v1.2.1
+        with:
+          java-version: ${{ matrix.java }}
+          maven-version: ${{ matrix.maven }}
+      - name: Build with Maven
+        run: mvn verify
+      - uses: actions/checkout@v3
+      - id: TAG
+        run: |
           COMMIT_ID=`git rev-parse --short HEAD`
           #TAG=`git show-ref --tags | grep $COMMIT_ID | awk -F / '{print  $NF}'`
           echo commitId:$COMMIT_ID and tag:$TAG
           #echo "::set-output name=TAG::$TAG"
-    - name: Set up JDK 11
-      uses: actions/setup-java@v3
-      with:
-        java-version: '11'
-        distribution: 'temurin'
-        cache: maven
-    - name: Setup Maven Action
-      uses: s4u/setup-maven-action@v3.6.3
-      with:
-        java-version: 11
-    - name: Build with Maven
-      run: mvn package --file pom.xml 
+      - name: Setup Maven Action
+        uses: s4u/setup-maven-action@v1.2.1
+        with:
+          java-version: 11
+      - name: Build with Maven
+        run: mvn package --file pom.xml 
 #    - name: Edastakhat UI Build & Pushing
 #      run: |
 #            export COMMIT_ID=$(git rev-parse --short HEAD)
