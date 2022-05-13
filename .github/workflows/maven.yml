@@ -31,7 +31,7 @@ jobs:
         run: |
             export COMMIT_ID=$(git rev-parse --short HEAD)
             echo commitId:$COMMIT_ID
-            echo ${{ secrets.NSDL_USER_PASS}} | sudo -S docker build -t temp/ed-ui:$COMMIT_ID .
+            echo ${{ secrets.NSDL_USER_PASS}} | sudo -S docker build -t temp/petclinic:$COMMIT_ID .
 #    - name: Edastakhat UI Build & Pushing
 #      run: |
 #            export COMMIT_ID=$(git rev-parse --short HEAD)
