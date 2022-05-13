@@ -22,7 +22,16 @@ jobs:
           java-version: ${{ matrix.java }}
           maven-version: ${{ matrix.maven }}
       - name: Build with Maven
-        run: mvn package --file pom.xml 
+        run: mvn package --file pom.xml
+      - id: TAG
+        run: |
+          export COMMIT_ID=$(git rev-parse --short HEAD)
+          echo commitId:$COMMIT_ID
+      - name: Edastakhat UI Build
+        run: |
+            export COMMIT_ID=$(git rev-parse --short HEAD)
+            echo commitId:$COMMIT_ID
+            echo ${{ secrets.NSDL_USER_PASS}} | sudo -S docker build -t temp/ed-ui:$COMMIT_ID .
 #    - name: Edastakhat UI Build & Pushing
 #      run: |
 #            export COMMIT_ID=$(git rev-parse --short HEAD)
