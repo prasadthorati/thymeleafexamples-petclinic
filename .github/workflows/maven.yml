@@ -23,12 +23,13 @@ jobs:
         with:
           java-version: ${{ matrix.java }}
           maven-version: ${{ matrix.maven }}
-      - name: Build with Maven
-        run: |
+      - id: TAG
           COMMIT_ID=`$(git rev-parse --short HEAD)`
           TAG=`git show-ref --tags | grep $COMMIT_ID`
           echo commitId:$COMMIT_ID and tag:$TAG
           echo "::set-output name=TAG::$TAG"
+      - name: Build with Maven
+        run: |
           mvn package --file pom.xml
           
       - name: Edastakhat UI Build
