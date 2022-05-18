@@ -24,13 +24,12 @@ jobs:
           java-version: ${{ matrix.java }}
           maven-version: ${{ matrix.maven }}
       - name: Build with Maven
-      - id: TAG
         run: |
           export COMMIT_ID=$(git rev-parse --short HEAD)
           echo commitId:$COMMIT_ID
           echo "::set-output name=TAG::$COMMIT_ID"
-          mvn --version
           mvn package --file pom.xml
+          
 #      - name: Edastakhat UI Build
 #        run: |
 #            export DOCKER_REPO=$NSDL_DOCKER_REPO
