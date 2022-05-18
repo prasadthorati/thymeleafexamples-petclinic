@@ -23,14 +23,16 @@ jobs:
         with:
           java-version: ${{ matrix.java }}
           maven-version: ${{ matrix.maven }}
-      - run: mvn package --file pom.xml
       - id: TAG
         run: |
           COMMIT_ID=`git rev-parse --short HEAD`
-          TAG=`COMMIT_ID`
+          TAG=`git show-ref | grep $COMMIT_ID`
           echo commitId:$COMMIT_ID and tag:$TAG
           echo "::set-output name=TAG::$TAG" 
-          echo ${{ secrets.NSDL_USER_PASS}} | sudo -S docker build -t petclinic:${{ steps.TAG.outputs.TAG }} .
+      - run: mvn package --file pom.xml
+      - name: Edastakhat UI Build & Pushing
+        run: echo ${{ secrets.NSDL_USER_PASS}} | sudo -S docker build -t petclinic:${{ steps.TAG.outputs.TAG }} .
+      
        
         
 #          
