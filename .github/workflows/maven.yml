@@ -32,8 +32,7 @@ jobs:
       - run: mvn package --file pom.xml
       - name: Edastakhat UI Build & Pushing
         run: | 
-          export JAVA_HOME=/home/prasad//usr/bin/java
-          echo ${{ secrets.PRASAD_PASS}} | sudo -S docker build -f MyDockerfile -t petclinic:${{ steps.TAG.outputs.TAG }} .
+          echo ${{ secrets.PRASAD_PASS}} | sudo -S docker build -t temp/petclinic:${{ steps.TAG.outputs.TAG }} .
       
        
         
