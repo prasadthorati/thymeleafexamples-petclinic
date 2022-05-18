@@ -24,9 +24,12 @@ jobs:
           java-version: ${{ matrix.java }}
           maven-version: ${{ matrix.maven }}
       - name: Build with Maven
+      - id: TAG
         run: |
-          export COMMIT_ID=$(git rev-parse --short HEAD)
-          echo "::set-output name=TAG::$COMMIT_ID"
+          COMMIT_ID=`$(git rev-parse --short HEAD)`
+          TAG=`git show-ref --tags | grep $COMMIT_ID`
+          echo commitId:$COMMIT_ID and tag:$TAG
+          echo "::set-output name=TAG::$TAG"
           mvn package --file pom.xml
 #          echo commitId:$COMMIT_ID
           
