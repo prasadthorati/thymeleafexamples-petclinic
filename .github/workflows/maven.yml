@@ -23,11 +23,6 @@ jobs:
         with:
           java-version: ${{ matrix.java }}
           maven-version: ${{ matrix.maven }}
-      - id: TAG
-          COMMIT_ID=`git rev-parse --short HEAD`
-          TAG=`git show-ref | grep $COMMIT_ID `
-          echo commitId:$COMMIT_ID and tag:$TAG
-          echo "::set-output name=TAG::$TAG"
        
         
 #          
