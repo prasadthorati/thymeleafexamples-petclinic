@@ -29,8 +29,6 @@ jobs:
             TAG=`git show-ref | grep $COMMIT_ID `
             echo commitId:$COMMIT_ID and tag:$TAG
             echo "::set-output name=TAG::$TAG"
-      - name: Edastakhat UI Build
-          run:|
             mvn package --file pom.xml
       - name: Edastakhat UI Build
         run: |
