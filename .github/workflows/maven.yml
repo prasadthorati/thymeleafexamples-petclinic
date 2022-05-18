@@ -32,8 +32,7 @@ jobs:
           
       - name: Edastakhat UI Build
         run: |
-            export DOCKER_REPO=$NSDL_DOCKER_REPO
-            docker build -t $DOCKER_REPO/petclinic:${{ steps.TAG.outputs.TAG }} .
+            docker build -t petclinic:${{ steps.TAG.outputs.TAG }} .
 #          
 #      - id: TAG
 #        run: |
