@@ -10,14 +10,16 @@ on:
 jobs:
   build:
 
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
+    outputs:
+      output1: ${{ steps.step1.outputs.test }}
     strategy:
       matrix:
         maven: [ '3.6.3' ]
         java: [ '11']
     steps:
       - name: Setup Maven Action
-        uses: s4u/setup-maven-action@v1.2.1
+        uses: s4u/setup-maven-action@v1.4.0
         with:
           java-version: ${{ matrix.java }}
           maven-version: ${{ matrix.maven }}
@@ -25,6 +27,11 @@ jobs:
         run: |  
            mvn --version
            mvn package --file pom.xml
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo ${{needs.job1.outputs.output1}}
 #      - id: TAG
 #        run: |
 #          export COMMIT_ID=$(git rev-parse --short HEAD)
