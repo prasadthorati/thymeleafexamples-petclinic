@@ -25,9 +25,9 @@ jobs:
           maven-version: ${{ matrix.maven }}
       - id: TAG
         run: |
-          COMMIT_ID=`git rev-parse --short HEAD`
-          echo commitId:$COMMIT_ID
-          echo "::set-output name=TAG::$COMMIT_ID" 
+          TAG=`git rev-parse --short HEAD`
+          echo tag:$TAG
+          echo "::set-output name=TAG::$TAG" 
           echo 'tag=========:'${{ steps.TAG.outputs.TAG }}
       - run: mvn package --file pom.xml
       - name: Edastakhat UI Build & Pushing
