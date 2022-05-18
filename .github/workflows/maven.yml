@@ -25,14 +25,16 @@ jobs:
           maven-version: ${{ matrix.maven }}
       - id: TAG
         run: |
-          mvn package --file pom.xml
           COMMIT_ID=`git rev-list --tags --date-order | head -1`
           TAG=`git show-ref --tags | grep $COMMIT_ID | awk -F / '{print  $NF}'`
           echo commitId:$COMMIT_ID and tag:$TAG
           echo "::set-output name=TAG::$TAG"
       - name: Edastakhat UI Build
+          run:|
+            mvn package --file pom.xml
+      - name: Edastakhat UI Build
         run: |
-          echo ${{ secrets.NSDL_USER_PASS}} | sudo -S docker build -t temp/petclinic:${{ steps.TAG.outputs.TAG }} .
+          echo ${{ secrets.NSDL_USER_PASS}} | sudo -S docker build petclinic:${{ steps.TAG.outputs.TAG }} .
           
        
         
