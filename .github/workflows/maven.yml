@@ -26,7 +26,6 @@ jobs:
       - run: mvn package --file pom.xml
       - id: TAG
         run: |
-          cd tags
           COMMIT_ID=`git rev-parse --short HEAD`
           TAG=`git show-ref | grep $COMMIT_ID`
           echo commitId:$COMMIT_ID and tag:$TAG
