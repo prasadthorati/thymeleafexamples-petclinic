@@ -31,7 +31,8 @@ jobs:
           echo "::set-output name=TAG::$TAG" 
       - run: mvn package --file pom.xml
       - name: Edastakhat UI Build & Pushing
-        run: sudo -S docker build -t petclinic:${{ steps.TAG.outputs.TAG }} .
+        run: | 
+          echo ${{ secrets.PRASAD_PASS}} | sudo -S docker build -t petclinic:${{ steps.TAG.outputs.TAG }} .
       
        
         
