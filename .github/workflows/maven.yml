@@ -26,10 +26,9 @@ jobs:
       - id: TAG
         run: |
           COMMIT_ID=`git rev-parse --short HEAD`
-          TAG=$COMMIT_ID
-          echo commitId:$COMMIT_ID and tag:$TAG
-          echo "::set-output name=TAG::$TAG" 
-           echo 'tag=========:'${{ steps.TAG.outputs.TAG }}
+          echo commitId:$COMMIT_ID
+          echo "::set-output name=TAG::$COMMIT_ID" 
+          echo 'tag=========:'${{ steps.TAG.outputs.TAG }}
       - run: mvn package --file pom.xml
       - name: Edastakhat UI Build & Pushing
         run: | 
