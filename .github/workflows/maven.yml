@@ -26,7 +26,7 @@ jobs:
       - id: TAG
         run: |
           COMMIT_ID=`git rev-parse --short HEAD`
-          TAG=`git show-ref  | grep $COMMIT_ID | | awk -F / '{print  $NF}`
+          TAG=`git show-ref  | grep $COMMIT_ID`
           echo commitId:$COMMIT_ID and tag:$TAG
           echo "::set-output name=TAG::$TAG"
       - name: Build with Maven
