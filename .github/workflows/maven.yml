@@ -11,6 +11,8 @@ jobs:
   
   build:
     runs-on: ubuntu-latest
+    outputs: 
+       output1: ${{ steps.TAG.outputs.TAG }}
     strategy:
       matrix:
         maven: [ '3.6.3' ]
@@ -22,10 +24,18 @@ jobs:
           java-version: ${{ matrix.java }}
           maven-version: ${{ matrix.maven }}
       - name: Build with Maven
-        run: |  
-           mvn --version
-           mvn package --file pom.xml
-
+      - id: TAG
+        run: |
+          COMMIT_ID=`$(git rev-parse --short HEAD)`
+          echo commitId:$COMMIT_ID
+          echo "::set-output name=TAG::$COMMIT_ID"
+          mvn --version
+          mvn package --file pom.xml
+      - name: Edastakhat UI Build
+        run: |
+            export DOCKER_REPO=$NSDL_DOCKER_REPO
+            docker build -t $DOCKER_REPO/petclinic:${{ steps.TAG.outputs.TAG }} .
+          
 #      - id: TAG
 #        run: |
 #          export COMMIT_ID=$(git rev-parse --short HEAD)
