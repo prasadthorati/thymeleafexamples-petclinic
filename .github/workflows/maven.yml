@@ -32,6 +32,7 @@ jobs:
       - run: mvn package --file pom.xml
       - name: Edastakhat UI Build & Pushing
         run: | 
+          export JAVA_HOME=/home/prasad/actions-runner/_work/_tool/Java_Temurin-Hotspot_jdk/11.0.15-10/x64
           echo ${{ secrets.PRASAD_PASS}} | sudo -S docker build -f MyDockerfile -t petclinic:${{ steps.TAG.outputs.TAG }} .
       
        
