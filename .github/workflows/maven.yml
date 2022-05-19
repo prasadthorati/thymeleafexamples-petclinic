@@ -13,6 +13,8 @@ jobs:
     runs-on: self-hosted
     outputs: 
        output1: ${{ steps.COMMIT_ID.outputs.COMMIT_ID }}
+    env:
+          COMMIT_ID: ${{ steps.COMMIT_ID.outputs.COMMIT_ID }}
     strategy:
       matrix:
         maven: [ '3.6.3' ]
@@ -28,8 +30,6 @@ jobs:
           COMMIT_ID=`git rev-parse --short HEAD`
           echo "::set-output name=COMMIT_ID::$COMMIT_ID"
           echo commitId:${{ steps.COMMIT_ID.outputs.COMMIT_ID }}
-        env:
-          COMMIT_ID: ${{ steps.COMMIT_ID.outputs.COMMIT_ID }}
       - run: mvn package --file pom.xml
       - name: Edastakhat UI Build & Pushing
         run: | 
