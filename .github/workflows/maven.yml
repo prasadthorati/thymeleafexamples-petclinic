@@ -26,10 +26,9 @@ jobs:
       - id: COMMIT_ID
         run: |
           COMMIT_ID=`git rev-parse --short HEAD`
-          echo commitId:$COMMIT_ID
           echo "::set-output name=COMMIT_ID::$COMMIT_ID"
         env:
-          DOCKER_TAG: ${{ steps.COMMIT_ID.outputs.COMMIT_ID }}
+          COMMIT_ID: ${{ steps.COMMIT_ID.outputs.COMMIT_ID }}
       - run: mvn package --file pom.xml
       - name: Edastakhat UI Build & Pushing
         run: | 
