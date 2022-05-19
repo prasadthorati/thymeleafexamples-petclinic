@@ -25,8 +25,7 @@ jobs:
           maven-version: ${{ matrix.maven }}
       - id: COMMIT_ID
         run: |
-          COMMIT_ID=`git rev-parse --short HEAD`
-          echo "::set-output name=COMMIT_ID::$COMMIT_ID"
+          echo "::set-output name=COMMIT_ID::git rev-parse --short HEAD"
           echo commitId:${{ steps.COMMIT_ID.outputs.COMMIT_ID }}
       - run: mvn package --file pom.xml
         env:
