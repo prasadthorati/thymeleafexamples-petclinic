@@ -25,14 +25,13 @@ jobs:
           maven-version: ${{ matrix.maven }}
       - id: COMMIT_ID
         run: |
-          echo "::set-output name=COMMIT_ID::git rev-parse --short HEAD"
-          echo commitId:${{ steps.COMMIT_ID.outputs.COMMIT_ID }}
+          COMMIT_ID=`git rev-parse --short HEAD`
+          echo "::set-output name=COMMIT_ID::$COMMIT_ID"
+          echo commitId:${{needs.build.outputs.output1}}
       - run: mvn package --file pom.xml
-        env:
-          COMMIT_ID: ${{ steps.COMMIT_ID.outputs.COMMIT_ID }}
       - name: Edastakhat UI Build & Pushing
         run: | 
-          echo ${{ secrets.PRASAD_PASS}} | sudo -S docker build -t temp/petclinic:${{ steps.COMMIT_ID.outputs.COMMIT_ID }} .
+          echo ${{ secrets.PRASAD_PASS}} | sudo -S docker build -t temp/petclinic:${{needs.build.outputs.output1}} .
         
 #          
 #      - id: TAG
