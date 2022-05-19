@@ -11,8 +11,6 @@ jobs:
   
   build:
     runs-on: self-hosted
-    outputs: 
-       output1: ${{ steps.COMMIT_ID.outputs.COMMIT_ID }}
     strategy:
       matrix:
         maven: [ '3.6.3' ]
@@ -27,14 +25,10 @@ jobs:
         run: |
           COMMIT_ID=`git rev-parse --short HEAD`
           echo commit_id:$COMMIT_ID
-          echo "::set-output name=COMMIT_ID::$COMMIT_ID" 
-          echo 'COMMIT_ID=========:'${{ steps.COMMIT_ID.outputs.COMMIT_ID }}
       - run: mvn package --file pom.xml
       - name: Edastakhat UI Build & Pushing
         run: | 
-          echo ${{ secrets.PRASAD_PASS}} | sudo -S docker build -t temp/petclinic:${{ steps.COMMIT_ID.outputs.COMMIT_ID }} .
-      
-       
+          echo ${{ secrets.PRASAD_PASS}} | sudo -S docker build -t temp/petclinic:$COMMIT_ID .
         
 #          
 #      - id: TAG
