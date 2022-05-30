@@ -27,7 +27,7 @@ jobs:
       id: docker_meta
       uses: crazy-max/ghaction-docker-meta@v1
       with:
-        images: ghcr.io/gbaeke/prasad
+        images: ghcr.io/prasadthorati/prasad
         tag-sha: true
         tag-edge: false
         tag-latest: true
