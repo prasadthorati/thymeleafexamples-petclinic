@@ -26,10 +26,12 @@ jobs:
           maven-version: ${{ matrix.maven }}
       - name: Build with Maven
         run: mvn package --file pom.xml
-      - name: Build with Maven
-        run: |
-            export ghcr_user=prasadthorati
-            docker login ghcr.io --user $ghcr_user --password-stdin ${{ secrets.GHCR_PASSWORD }}
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: prasadthorati
+          password: ${{ secrets.GHCR_PASSWORD }}
       
     #- name: Build with Maven
       #run: mvn package --file pom.xml
