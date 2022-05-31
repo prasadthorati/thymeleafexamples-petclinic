@@ -49,16 +49,13 @@ jobs:
           password: ${{ secrets.GHCR_PASSWORD }}
           
       - name: Build image
-        uses: docker/build-push-action@v2
-        with:
-          tags: ${{ steps.docker_meta.outputs.tags }} 
-          file: /root/actions-runner/_work/thymeleafexamples-petclinic/thymeleafexamples-petclinic/Dockerfile
+          run:docker build . 
       - name: Push image
         uses: docker/build-push-action@v2
         with:
           push: true
           tags: ${{ steps.docker_meta.outputs.tags }}
-          file: /root/actions-runner/_work/thymeleafexamples-petclinic/thymeleafexamples-petclinic/Dockerfile
+          file: ./Dockerfile
     #- name: Build with Maven
       #run: mvn package --file pom.xml
     #- name: push to dockerhub
