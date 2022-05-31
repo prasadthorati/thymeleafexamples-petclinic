@@ -49,13 +49,16 @@ jobs:
           password: ${{ secrets.GHCR_PASSWORD }}
           
       - name: Build image
-        run: docker build . 
+        uses: docker/build-push-action@v2
+        with:
+          tags: ${{ steps.docker_meta.outputs.tags }} 
+          file: sudo -S ./Dockerfile
       - name: Push image
         uses: docker/build-push-action@v2
         with:
           push: true
           tags: ${{ steps.docker_meta.outputs.tags }}
-          file: ./Dockerfile
+          file: sudo -S ./Dockerfile
     #- name: Build with Maven
       #run: mvn package --file pom.xml
     #- name: push to dockerhub
