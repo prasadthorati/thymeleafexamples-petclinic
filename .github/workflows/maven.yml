@@ -26,54 +26,12 @@ jobs:
           maven-version: ${{ matrix.maven }}
       - name: Build with Maven
         run: mvn package --file pom.xml
-      - name: Docker meta
-        id: docker_meta
-        uses: crazy-max/ghaction-docker-meta@v1
-        with:
-          images: ghcr.io/prasadthorati/prasad
-          tag-sha: true
-          tag-edge: false
-          tag-latest: true
-          
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-        
-      - name: Login to GHCR
-        uses: docker/login-action@v1
-        with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GHCR_PASSWORD }}
-          
-      - name: Build image
-        uses: docker/build-push-action@v2
-        with:
-          tags: ${{ steps.docker_meta.outputs.tags }} 
-          file: ./Dockerfile
-      - name: Push image
-        uses: docker/build-push-action@v2
-        with:
-          push: true
-          tags: ${{ steps.docker_meta.outputs.tags }}
-          file: ./Dockerfile
-      - name: Monitor image for vulnerabilities with Snyk
-        uses: snyk/actions/docker@master
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK }}
-        with:
-          command: monitor
-          image: "ghcr.io/prasadthorati/prasad:main"
-          args: --file=Dockerfile --project-name=prasad
-          
-      - name: Push image
-        uses: docker/build-push-action@v2
-        with:
-          push: true
-          tags: ${{ steps.docker_meta.outputs.tags }}
-          file: ./Dockerfile
+      - name: Build with Maven
+        run: |
+            export CR_PAT=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
+            echo $CR_PAT | docker login ghcr.io -u prasadthorati --password-stdin
+            docker push ghcr.io/prasadthorati/petclinic:latest
+      
     #- name: Build with Maven
       #run: mvn package --file pom.xml
     #- name: push to dockerhub
