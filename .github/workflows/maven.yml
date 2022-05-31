@@ -29,8 +29,7 @@ jobs:
       - name: Build with Maven
         run: |
             export ghcr_user=prasadthorati
-            export CR_PAT=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
-            docker login ghcr.io -u $ghcr_user -p $CR_PAT
+            docker login ghcr.io --user $ghcr_user --password-stdin ${{ secrets.GHCR_PASSWORD }}
       
     #- name: Build with Maven
       #run: mvn package --file pom.xml
