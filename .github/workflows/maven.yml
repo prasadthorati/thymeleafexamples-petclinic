@@ -32,7 +32,10 @@ jobs:
           registry: ghcr.io
           username: prasadthorati
           password: ${{ secrets.GHCR_PASSWORD }}
-      
+      - run: | 
+          docker build -t ghcr.io/prasadthorati/prasad:1.0 .
+          docker push ghcr.io/prasadthorati/prasad:1.0
+          
     #- name: Build with Maven
       #run: mvn package --file pom.xml
     #- name: push to dockerhub
