@@ -29,7 +29,7 @@ jobs:
       - name: Build with Maven
         run: |
             export CR_PAT=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
-            echo "$CR_PAT" | docker login ghcr.io -u prasadthorati --password-stdin
+            docker login ghcr.io -u $ghcr_user -p $CR_PAT
             docker push ghcr.io/prasadthorati/petclinic:latest
       
     #- name: Build with Maven
