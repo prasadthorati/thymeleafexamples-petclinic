@@ -49,7 +49,7 @@ jobs:
           password: ${{ secrets.GHCR_PASSWORD }}
           
       - name: Build image
-          run:docker build . 
+        run: docker build . 
       - name: Push image
         uses: docker/build-push-action@v2
         with:
