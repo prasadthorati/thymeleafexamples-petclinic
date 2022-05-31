@@ -22,7 +22,10 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
         cache: maven
-    - run: mvn package --file pom.xml
+    - name: Maven build
+      uses: s4u/maven-settings-action@v2.6.0
+        run: | 
+           mvn package --file pom.xml
     - name: Docker meta
       id: docker_meta
       uses: crazy-max/ghaction-docker-meta@v1
