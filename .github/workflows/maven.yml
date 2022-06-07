@@ -8,10 +8,7 @@ on:
     branches: [ 2.1-master ]
 env:
   # Use docker.io for Docker Hub if empty
-  REGISTRY: ghcr.io/${GITHUB_REPOSITORY,,}
-  # github.repository as <account>/<repo>
-  SERVICE_NAME: thymeleafexamples-petclinic
-  
+  REGISTRY: ghcr.io
 
 jobs:
   build:
@@ -33,8 +30,8 @@ jobs:
       - name: Set Image Name
         id: set-image-name
         run: |
-            echo "Image_Name=${{ env.REGISTRY }}:$(git rev-parse --short HEAD)"
-            echo "::set-output name=Image_Name::$set-image-name"
+            echo "IMAGE_NAME=${{ env.REGISTRY }}/${GITHUB_REPOSITORY,,}:$(git rev-parse --short HEAD)" >>${GITHUB_ENV}
+            echo "::set-output name=imagename::${{ env.REGISTRY }}/${GITHUB_REPOSITORY,,}:$(git rev-parse --short HEAD)"
       - name: Build with Maven
         run: mvn package
         
