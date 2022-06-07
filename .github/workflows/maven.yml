@@ -36,6 +36,8 @@ jobs:
         
       - name: Edastakhat UI Build
         run: |
+           docker --version
+           docker images
            docker build -t ${{ env.IMAGE_NAME }} .
       
   artifact-upload:
