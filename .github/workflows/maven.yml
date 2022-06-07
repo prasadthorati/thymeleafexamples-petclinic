@@ -6,8 +6,9 @@ name: Java CI with Maven
 on:
   push:
     branches: [ 2.1-master ]
-  pull_request:
-    branches: [ 2.1-master ]
+env:
+  # Use docker.io for Docker Hub if empty
+  REGISTRY: ghcr.io
 
 jobs:
   build:
@@ -29,8 +30,8 @@ jobs:
       - name: Set Image Name
         id: set-image-name
         run: |
-            echo "IMAGE_NAME=ghcr.io/${GITHUB_REPOSITORY,,}/${{ env.SERVICE_NAME }}:$(git rev-parse --short HEAD)" >>${GITHUB_ENV}
-            echo "::set-output name=imagename::ghcr.io/${GITHUB_REPOSITORY,,}/${{ env.SERVICE_NAME }}:$(git rev-parse --short HEAD)"
+            echo "IMAGE_NAME=${{ env.REGISTRY }}/${GITHUB_REPOSITORY,,}:$(git rev-parse --short HEAD)" >>${GITHUB_ENV}
+            echo "::set-output name=imagename::ghcr.io/${GITHUB_REPOSITORY,,}:$(git rev-parse --short HEAD)"
       - name: Build with Maven
         run: mvn package
         
@@ -39,6 +40,7 @@ jobs:
            docker --version
            docker images
            docker build -t ${{ env.IMAGE_NAME }} .
+           docker images
       
   artifact-upload:
     needs: 
