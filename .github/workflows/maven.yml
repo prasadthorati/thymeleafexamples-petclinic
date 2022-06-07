@@ -41,7 +41,7 @@ jobs:
   artifact-upload:
     needs: 
       - build
-    runs-on: ed-kube-worker2
+    runs-on: self-hosted
     permissions:
       contents: read
       packages: write
