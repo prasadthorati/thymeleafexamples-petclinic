@@ -30,7 +30,7 @@ jobs:
       - name: Set Image Name
         id: set-image-name
         run: |
-            echo "IMAGE_NAME=${{ env.REGISTRY }}/${GITHUB_REPOSITORY,,}:$(git rev-parse --short HEAD)" >>${GITHUB_ENV}
+            echo "IMAGE_NAME=${{ env.REGISTRY }}/${GITHUB_REPOSITORY,,}:$(git rev-parse --short HEAD)"
             echo "::set-output name=set-image-name::$set-image-name"
       - name: Build with Maven
         run: mvn package
