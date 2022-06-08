@@ -16,11 +16,7 @@ jobs:
     runs-on: self-hosted 
     steps:
     - name: Log into registry ${{ env.REGISTRY }}
-      uses: docker/login-action@28218f9b04b4f3f62068d7b6ce6ca5b26e35336c
-      with:
-        registry: ${{ env.REGISTRY }}
-        username: ${{ secrets.GHCR_USERNAME }}
-        password: ${{ secrets.GHCR_PASSWORD }}
+      run: echo "${{ secrets.GHCR_PASSWORD }}" | docker login ghcr.io -u prasadthorati --password-stdin
     - name: Push Docker image
       run: |
           docker images
