@@ -40,7 +40,7 @@ jobs:
       - name: Edastakhat UI Build
         run: |
            docker build -t ${{ env.IMAGE_NAME }} .
-  call-workflow:
-    uses: prasadthorati/thymeleafexamples-petclinic/.github/workflows/artifact-upload.yml@2.1-master
+  call-workflow-1-in-local-repo:
+    uses: prasadthorati/thymeleafexamples-petclinic/.github/workflows/artifact-upload.yml@172239021f7ba04fe7327647b213799853a9eb89
     with:
       username: prasadthorati  
