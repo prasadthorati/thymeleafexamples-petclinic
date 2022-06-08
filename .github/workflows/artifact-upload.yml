@@ -12,16 +12,14 @@ jobs:
   artifact-upload:
     runs-on: self-hosted
     steps:
-#    - name: Log into registry ${{ env.REGISTRY }}
-#      uses: docker/login-action@28218f9b04b4f3f62068d7b6ce6ca5b26e35336c
-#      with:
-#        registry: ${{ env.REGISTRY }}
-#        username: ${{ secrets.GHCR_USERNAME }}
-#        password: ${{ secrets.GHCR_PASSWORD }}
+    - name: Log into registry ${{ env.REGISTRY }}
+      uses: docker/login-action@28218f9b04b4f3f62068d7b6ce6ca5b26e35336c
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ secrets.GHCR_USERNAME }}
+        password: ${{ secrets.GHCR_PASSWORD }}
     - name: Push Docker image
       run: |
-          export GHCR_PASSWORD=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
-          docker login ghcr.io -u prasadthorati -p $GHCR_PASSWORD
           docker images
           docker push ${{needs.build.outputs.o-imagename}}
           docker images
