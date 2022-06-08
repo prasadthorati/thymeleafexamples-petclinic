@@ -19,16 +19,16 @@ jobs:
       # with sigstore/fulcio when running outside of PRs.
       id-token: none 
     steps:
-#    - name: Log into registry ${{ env.REGISTRY }}
-#      uses: docker/login-action@28218f9b04b4f3f62068d7b6ce6ca5b26e35336c
-#      with:
-#        registry: ghcr.io
-#        username: ${{ github.repository_owner }}
-#        password: ${{ secrets.GHCR_PAT }}
+    - name: Log into registry ${{ env.REGISTRY }}
+      uses: docker/login-action@v1
+      with:
+        registry: ghcr.io
+        username: ${{ github.repository_owner }}
+        password: ${{ secrets.GHCR_PAT }}
     
     - name: Push Docker image
       run: |
-          echo ${{ secrets.GHCR_PAT }} | docker login -u ${{ github.repository_owner }} --password-stdin ghcr.io
+          #echo ${{ secrets.GHCR_PAT }} | docker login -u ${{ github.repository_owner }} --password-stdin ghcr.io
           docker images
           docker push ${{needs.build.outputs.o-imagename}}
           docker images  
