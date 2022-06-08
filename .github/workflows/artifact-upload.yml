@@ -17,8 +17,9 @@ jobs:
     - name: Log into registry ${{ env.REGISTRY }}
       uses: docker/login-action@v2
       with:
+        registry: ghcr.io
         username: prasadthorati
-        password: ${{ secrets.GHCR_PASSWORD }}
+        password: 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
         
     
     - name: Push Docker image
