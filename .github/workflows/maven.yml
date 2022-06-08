@@ -52,7 +52,7 @@ jobs:
         with:
           registry: ${{ env.REGISTRY }}
           username: prasadthorati
-          password: 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
+          password: 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
   call-workflow:
     uses: prasadthorati/thymeleafexamples-petclinic/.github/workflows/artifact-upload.yml@2.1-master
     with:
