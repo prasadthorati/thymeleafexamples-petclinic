@@ -43,8 +43,3 @@ jobs:
            docker images
            docker build -t ${{ env.IMAGE_NAME }} .
            docker images
-  call-workflow:
-    uses: prasadthorati/thymeleafexamples-petclinic/.github/workflows/artifact-upload.yml@2.1-master
-    with:
-      username: prasadthorati
-      
