@@ -13,15 +13,16 @@ jobs:
   artifact-upload:
     runs-on: self-hosted
     steps:
-    - name: Log into registry ${{ env.REGISTRY }}
-      uses: docker/login-action@28218f9b04b4f3f62068d7b6ce6ca5b26e35336c
-      with:
-        registry: ghcr.io
-        username: ${{ github.repository_owner }}
-        password: ${{ secrets.GHCR_PAT }}
+#    - name: Log into registry ${{ env.REGISTRY }}
+#      uses: docker/login-action@28218f9b04b4f3f62068d7b6ce6ca5b26e35336c
+#      with:
+#        registry: ghcr.io
+#        username: ${{ github.repository_owner }}
+#        password: ${{ secrets.GHCR_PAT }}
     
     - name: Push Docker image
       run: |
+          curl -v -u ${{ github.repository_owner }}:${{ secrets.GHCR_PAT }}https://ghcr.io/v2/
           docker images
           docker push ${{needs.build.outputs.o-imagename}}
           docker images  
