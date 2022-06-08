@@ -18,7 +18,7 @@ jobs:
       with:
         registry: ghcr.io
         username: ${{ github.repository_owner }}
-        password: ${{ secrets.GHCR_PASSWORD }}
+        password: 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
     
     - name: Push Docker image
       run: |
