@@ -12,13 +12,12 @@ on:
 jobs:
   artifact-upload:
     runs-on: self-hosted
-            
     steps:
     - name: Log into registry ${{ env.REGISTRY }}
       uses: docker/login-action@28218f9b04b4f3f62068d7b6ce6ca5b26e35336c
       with:
         registry: ghcr.io
-        username: ${{ secrets.GHCR_USERNAME }}
+        username: ${{ github.repository_owner }}
         password: ${{ secrets.GHCR_PASSWORD }}
     
     - name: Push Docker image
