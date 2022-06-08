@@ -6,11 +6,12 @@ name: Java CI with Maven
 on:
   push:
     branches: [ 2.1-master ]
+permissions:
+  contents: write
 env:
   # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io
-permissions:
-  contents: write
+
 jobs:
   build:
     runs-on: self-hosted
