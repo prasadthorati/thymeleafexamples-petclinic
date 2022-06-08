@@ -8,8 +8,6 @@ on:
     secrets:
       password:
         required: false
-permissions:
-    contents: read
 jobs:
   artifact-upload:
     runs-on: self-hosted
