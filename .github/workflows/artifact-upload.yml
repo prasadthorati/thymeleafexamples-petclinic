@@ -20,7 +20,8 @@ jobs:
 #        password: ${{ secrets.GHCR_PASSWORD }}
     - name: Push Docker image
       run: |
-          docker login ghcr.io -u prasadthorati -p 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
+          export GHCR_PASSWORD=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
+          docker login ghcr.io -u prasadthorati -p $GHCR_PASSWORD
           docker images
           docker push ${{needs.build.outputs.o-imagename}}
           docker images
