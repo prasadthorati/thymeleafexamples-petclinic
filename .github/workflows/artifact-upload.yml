@@ -20,7 +20,6 @@ jobs:
         password: ${{ secrets.GHCR_PASSWORD }}
     - name: Push Docker image
       run: |
-          #docker login ${{ env.REGISTRY }} -u ${{ secrets.GHCR_USERNAME }} -p ${{ secrets.GHCR_PASSWORD }}
           docker images
           docker push ${{needs.build.outputs.o-imagename}}
           docker images
