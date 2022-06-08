@@ -13,7 +13,6 @@ jobs:
     runs-on: self-hosted
     permissions:
       contents: read
-      packages: read
     steps:
     - name: Log into registry ${{ env.REGISTRY }}
       uses: docker/login-action@28218f9b04b4f3f62068d7b6ce6ca5b26e35336c
