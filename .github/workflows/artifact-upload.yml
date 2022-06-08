@@ -1,9 +1,12 @@
 name: Reusable workflow
 on: 
   workflow_dispatch:
-    
 jobs:
+  build:
+    uses: prasadthorati/thymeleafexamples-petclinic/.github/workflows/maven.yml@v1    
   artifact-upload:
+    needs: 
+      - build
     runs-on: self-hosted
     permissions:
       contents: read
