@@ -14,16 +14,9 @@ jobs:
     permissions:
       contents: read
     steps:
-    - name: Log into registry
-      uses: docker/login-action@v1
-      with:
-        registry: ghcr.io
-        username: prasadthorati
-        password: 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
-        
-    
     - name: Push Docker image
       run: |
+          echo "${{ secrets.GHCR_PASSWORD }}" | docker login ${{ env.REGISTRY }} -u "${{ secrets.GHCR_USERNAME }}" --password-stdin
           docker images
           docker push ${{needs.build.outputs.o-imagename}}
           docker images
