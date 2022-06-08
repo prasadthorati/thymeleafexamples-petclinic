@@ -43,17 +43,27 @@ jobs:
         
       - name: Edastakhat UI Build
         run: |
-           docker --version
-           docker images
            docker build -t ${{ env.IMAGE_NAME }} .
-           docker images
-      - name: Log into registry ${{ env.REGISTRY }}
-        uses: docker/login-action@28218f9b04b4f3f62068d7b6ce6ca5b26e35336c
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: prasadthorati
-          password: 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
-  call-workflow:
-    uses: prasadthorati/thymeleafexamples-petclinic/.github/workflows/artifact-upload.yml@2.1-master
-    with:
-      username: prasadthorati
+  artifact-upload:
+    needs: 
+      - build
+    runs-on: ed-kube-worker2
+    permissions:
+      contents: read
+      packages: write
+      # This is used to complete the identity challenge 
+      # with sigstore/fulcio when running outside of PRs.
+      id-token: write          
+    steps:
+    - name: Log into registry ${{ env.REGISTRY }}
+      uses: docker/login-action@28218f9b04b4f3f62068d7b6ce6ca5b26e35336c
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ secrets.GHCR_USERNAME }}
+        password: ${{ secrets.GHCR_PASSWORD }}
+    
+    - name: Push Docker image
+      run: |
+          docker images
+          docker push ${{needs.build.outputs.o-imagename}}
+          docker images    
