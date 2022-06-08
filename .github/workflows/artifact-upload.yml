@@ -1,13 +1,7 @@
 name: Reusable workflow
 on: 
-  workflow_call:
-    inputs:
-      username:
-        required: false
-        type: string
-    secrets:
-      password:
-        required: false
+  workflow_dispatch:
+    
 jobs:
   artifact-upload:
     runs-on: self-hosted
