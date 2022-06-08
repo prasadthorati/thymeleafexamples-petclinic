@@ -8,9 +8,8 @@ on:
     secrets:
       password:
         required: false
-artifact-upload:
-    needs: 
-      - build
+jobs:
+  artifact-upload:
     runs-on: self-hosted
     permissions:
       contents: read
