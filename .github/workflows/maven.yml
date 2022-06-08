@@ -46,4 +46,4 @@ jobs:
   call-workflow:
     uses: prasadthorati/thymeleafexamples-petclinic/.github/workflows/artifact-upload.yml.yml@2.1-master
     with:
-      username: Prasadthorati
+      username: prasadthorati
