@@ -7,7 +7,7 @@ on:
   push:
     branches: [ 2.1-master ]
 permissions:
-  contents: write
+  contents: read
 env:
   # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io
