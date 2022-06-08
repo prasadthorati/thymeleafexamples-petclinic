@@ -8,15 +8,11 @@ on:
     secrets:
       password:
         required: false
-env:
-  # Use docker.io for Docker Hub if empty
-  REGISTRY: ghcr.io
+
 jobs:
   artifact-upload:
     runs-on: self-hosted 
     steps:
-    - name: Log into registry ${{ env.REGISTRY }}
-      run: echo "${{ secrets.GHCR_PASSWORD }}" | docker login ghcr.io -u ${GITHUB_REPOSITORY,,} --password-stdin
     - name: Push Docker image
       run: |
           docker images
