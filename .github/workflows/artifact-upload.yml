@@ -1,12 +1,15 @@
 name: Reusable workflow
 on: 
-  workflow_dispatch:
+  workflow_call:
+    inputs:
+      username:
+        required: false
+        type: string
+    secrets:
+      password:
+        required: false
 jobs:
-  build:
-    uses: prasadthorati/thymeleafexamples-petclinic/.github/workflows/maven.yml@v1    
   artifact-upload:
-    needs: 
-      - build
     runs-on: self-hosted
     permissions:
       contents: read
