@@ -8,9 +8,9 @@ on:
     secrets:
       password:
         required: false
-      GHCR_USERNAME:
+      ghcr_username:
         required: false
-      GHCR_TOKEN:
+      ghcr_token:
         required: false
 env:
   # Use docker.io for Docker Hub if empty
@@ -35,7 +35,7 @@ jobs:
       run: |
             echo "IMAGE_NAME=${{ env.REGISTRY }}/${GITHUB_REPOSITORY,,}:$(git rev-parse --short HEAD)" >>${GITHUB_ENV}
             echo "::set-output name=imagename::ghcr.io/${GITHUB_REPOSITORY,,}:$(git rev-parse --short HEAD)"
-    - name: Push Docker image
+    - name: Build & Push Docker image
       run: |
           docker build -t ${{ env.IMAGE_NAME }} .
           docker push ${{ steps.set-image-name.outputs.imagename }}
