@@ -1,9 +1,6 @@
 name: Reusable workflow
 on: 
   workflow_call:
-    outputs:
-      o-imagename:
-        value: ${{ steps.set-image-name.outputs.imagename }}
     inputs:
       username:
         required: false
@@ -42,6 +39,8 @@ jobs:
             echo "::set-output name=imagename::ghcr.io/${GITHUB_REPOSITORY,,}:$(git rev-parse --short HEAD)"
     - name: Push Docker image
       run: |
-          docker images
-          docker push ${{ steps.set-image-name.outputs.imagename }}
+          docker images 
+          docker build -t ${{ env.IMAGE_NAME }} .
+          docker push ${{ env.IMAGE_NAME }}
           docker images  
+           
