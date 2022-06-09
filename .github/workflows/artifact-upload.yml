@@ -12,9 +12,6 @@ on:
         required: false
       GHCR_TOKEN:
         required: false
-    outputs:
-      imagename:
-        value: ${{ steps.set-image-name.outputs.imagename }}
 env:
   # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io
@@ -22,6 +19,8 @@ env:
 jobs:
   image-upload:
     runs-on: self-hosted
+    outputs:
+      o-imagename: ${{ steps.set-image-name.outputs.imagename }}
     permissions:
       contents: read
       packages: none
