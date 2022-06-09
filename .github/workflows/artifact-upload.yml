@@ -9,9 +9,9 @@ on:
       password:
         required: false
       GHCR_USERNAME:
-        required: true
+        required: false
       GHCR_TOKEN:
-        required: true
+        required: false
 
 jobs:
   image-upload:
