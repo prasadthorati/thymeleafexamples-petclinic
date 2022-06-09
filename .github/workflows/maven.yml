@@ -15,8 +15,6 @@ env:
 jobs:
   build:
     runs-on: self-hosted
-    outputs:
-      o-imagename: ${{ steps.set-image-name.outputs.imagename }}
 
     strategy:
       matrix:
