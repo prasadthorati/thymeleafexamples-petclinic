@@ -43,7 +43,7 @@ jobs:
   call-workflow:
     uses: prasadthorati/thymeleafexamples-petclinic/.github/workflows/artifact-upload.yml@2.1-master
     with:
-      registry: ghcr.io
       username: prasadthorati
     secrets:
+      GHCR_USERNAME: ${{ secrets.GHCR_USERNAME }}
       GHCR_TOKEN: ${{ secrets.GHCR_TOKEN }}
