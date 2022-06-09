@@ -41,6 +41,6 @@ jobs:
         run: |
            docker build -t ${{ env.IMAGE_NAME }} .
   call-workflow:
-    uses: prasadthorati/thymeleafexamples-petclinic/.github/workflows/artifact-upload.yml@2.1-master
+    uses: prasadthorati/thymeleafexamples-petclinic/.github/workflows/new_check.yml@2.1-master
     with:
       username: prasadthorati  
