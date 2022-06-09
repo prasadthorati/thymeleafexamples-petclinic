@@ -2,12 +2,12 @@ name: Reusable workflow
 on: 
   workflow_call:
     
-#    secrets:
+    secrets:
       
-#      ghcr_username:
-#        required: false
-#      ghcr_token:
-#        required: false
+      ghcr_username:
+        required: false
+      ghcr_token:
+        required: false
 env:
   # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io
