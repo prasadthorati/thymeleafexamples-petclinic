@@ -3,8 +3,7 @@ on:
   workflow_call:
     
     secrets:
-      password:
-        required: false
+      
       ghcr_username:
         required: false
       ghcr_token:
