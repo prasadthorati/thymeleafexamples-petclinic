@@ -8,11 +8,14 @@ on:
     secrets:
       password:
         required: false
-#      GHCR_USERNAME:
-#        required: false
-#      GHCR_TOKEN:
-#        required: false
-
+      GHCR_USERNAME:
+        required: false
+      GHCR_TOKEN:
+        required: false
+env:
+  # Use docker.io for Docker Hub if empty
+  REGISTRY: ghcr.io
+  
 jobs:
   image-upload:
     runs-on: self-hosted
@@ -26,7 +29,7 @@ jobs:
     - name: Login to GitHub Container registry
       uses: docker/login-action@28218f9b04b4f3f62068d7b6ce6ca5b26e35336c
       with:
-        registry: ghcr.io
+        registry: ${{ env.REGISTRY }}
         username: ${{ secrets.GHCR_USERNAME }}
         password: ${{ secrets.GHCR_TOKEN }}
     
