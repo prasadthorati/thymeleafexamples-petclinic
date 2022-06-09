@@ -8,6 +8,10 @@ on:
     secrets:
       password:
         required: false
+      registry_username:
+        required: true
+      registry_password:
+        required: true
 
 jobs:
   image-upload:
