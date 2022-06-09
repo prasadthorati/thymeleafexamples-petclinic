@@ -23,7 +23,6 @@ jobs:
       o-imagename: ${{ steps.set-image-name.outputs.imagename }}
     permissions:
       contents: read
-      packages: write
     steps:
     - name: Login to GitHub Container registry
       uses: docker/login-action@28218f9b04b4f3f62068d7b6ce6ca5b26e35336c
