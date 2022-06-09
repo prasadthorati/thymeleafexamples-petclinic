@@ -12,6 +12,9 @@ on:
         required: false
       GHCR_TOKEN:
         required: false
+    outputs:
+      imagename:
+        value: ${{ steps.set-image-name.outputs.imagename }}
 env:
   # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io
@@ -41,6 +44,6 @@ jobs:
       run: |
           docker images 
           docker build -t ${{ env.IMAGE_NAME }} .
-          docker push ${{ env.IMAGE_NAME }}
+          docker push ${{ steps.set-image-name.outputs.imagename }}
           docker images  
            
