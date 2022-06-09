@@ -9,9 +9,9 @@ on:
       password:
         required: false
       GHCR_USERNAME:
-        required: false
+        required: true
       GHCR_TOKEN:
-        required: false
+        required: true
 env:
   # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io
