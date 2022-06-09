@@ -10,7 +10,7 @@ on:
         required: false
 
 jobs:
-  artifact-upload:
+  image-upload:
     runs-on: self-hosted
     permissions:
       contents: read
