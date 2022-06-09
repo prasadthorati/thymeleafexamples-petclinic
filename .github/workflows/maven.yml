@@ -4,8 +4,7 @@
 name: Java CI with Maven
 
 on:
-  push:
-    branches: [ 2.1-master ]
+  workflow_dispatch:
 permissions:
       contents: read
 env:
@@ -40,7 +39,7 @@ jobs:
       - name: Edastakhat UI Build
         run: |
            docker build -t ${{ env.IMAGE_NAME }} .
-  call-workflow:
+  image-upload:
     uses: prasadthorati/thymeleafexamples-petclinic/.github/workflows/artifact-upload.yml@2.1-master
     with:
       imagename: ${{ steps.set-image-name.outputs.imagename }}
