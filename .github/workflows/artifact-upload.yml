@@ -17,7 +17,7 @@ env:
   REGISTRY: ghcr.io
   
 jobs:
-  image-upload:
+  artifact-upload:
     runs-on: self-hosted
     outputs:
       o-imagename: ${{ steps.set-image-name.outputs.imagename }}
