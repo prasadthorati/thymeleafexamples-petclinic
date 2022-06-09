@@ -8,20 +8,20 @@ on:
     secrets:
       password:
         required: false
-      GHCR_USERNAME:
-        required: false
-      GHCR_TOKEN:
-        required: false
+#      GHCR_USERNAME:
+#        required: false
+#      GHCR_TOKEN:
+#        required: false
 
 jobs:
   image-upload:
     runs-on: self-hosted
     permissions:
       contents: read
-      packages: read
+      packages: none
       # This is used to complete the identity challenge 
       # with sigstore/fulcio when running outside of PRs.
-      id-token: read 
+      id-token: npne 
     steps:
     - name: Login to GitHub Container registry
       uses: docker/login-action@28218f9b04b4f3f62068d7b6ce6ca5b26e35336c
