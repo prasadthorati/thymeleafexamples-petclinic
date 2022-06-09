@@ -8,9 +8,9 @@ on:
     secrets:
       password:
         required: false
-      registry_username:
+      GHCR_USERNAME:
         required: true
-      registry_password:
+      GHCR_PASSWORD:
         required: true
 
 jobs:
@@ -27,7 +27,7 @@ jobs:
       uses: docker/login-action@28218f9b04b4f3f62068d7b6ce6ca5b26e35336c
       with:
         registry: ghcr.io
-        username: ${{ github.repository_owner }}
+        username: ${{ secrets.GHCR_USERNAME }}
         password: ${{ secrets.GHCR_PASSWORD }}
     
     - name: Push Docker image
