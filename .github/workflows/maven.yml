@@ -6,31 +6,16 @@ name: Java CI with Maven
 on:
   push:
     branches: [ 2.1-master ]
-permissions:
-      contents: read
-
 jobs:
   build:
     runs-on: self-hosted
-
-    strategy:
-      matrix:
-        maven: [ '3.6.3' ]
-        java: [ '11']
-        
-    steps:
-      - name: Setup Maven Action
-        uses: s4u/setup-maven-action@v1.2.1
-        with:
-          java-version: ${{ matrix.java }}
-          maven-version: ${{ matrix.maven }}
-      - name: Build with Maven
-        run: mvn package
-        
-  call-workflow:
-    needs: 
-      - build
-    uses: prasadthorati/thymeleafexamples-petclinic/.github/workflows/artifact-upload.yml@2.1-master
-    secrets:
-      ghcr_username: ${{ secrets.GHCR_USERNAME }}
-      ghcr_token: ${{ secrets.GHCR_TOKEN }}
+      call-workflow:
+        uses: prasadthorati/thymeleafexamples-petclinic/.github/workflows/build.yml@2.1-master
+  artifact-upload:
+    call-workflow:
+      needs: 
+        - build
+      uses: prasadthorati/thymeleafexamples-petclinic/.github/workflows/artifact-upload.yml@2.1-master
+      secrets:
+        ghcr_username: ${{ secrets.GHCR_USERNAME }}
+        ghcr_token: ${{ secrets.GHCR_TOKEN }}
