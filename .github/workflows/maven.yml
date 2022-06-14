@@ -8,16 +8,15 @@ on:
     branches: [ 2.1-master ]
 jobs:
   build:
-      uses: prasadthorati/thymeleafexamples-petclinic/.github/workflows/build.yml@2.1-master
+#      uses: prasadthorati/thymeleafexamples-petclinic/.github/workflows/build.yml@2.1-master
+      uses: prasadthorati/thymeleafexamples-petclinic/.github/workflows/artifact-upload.yml@2.1-master
   artifact-upload:
     runs-on: ubuntu-latest
     needs: 
       - build
     steps:
     - name: Build & Push Docker image
-      uses: prasadthorati/thymeleafexamples-petclinic/.github/workflows/artifact-upload.yml@2.1-master
-    - name: Build & Push Docker image
-      run: echo ${{ jobs.artifact-upload.outputs.o-imagename }}
+    - run: echo ${{ jobs.artifact-upload.outputs.o-imagename }}
     
 #    secrets:
 #      ghcr_username: ${{ secrets.GHCR_USERNAME }}
