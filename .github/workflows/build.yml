@@ -1,8 +1,8 @@
 name: Reusable workflow
 on: 
   workflow_call:
-#permissions:
-#  contents: read
+permissions:
+  contents: read
 jobs:
   build:
     runs-on: ubuntu-latest
