@@ -3,6 +3,7 @@ on:
   workflow_call:
     outputs:
       o-imagename:
+        description: "The first output string"
         value: ${{ jobs.artifact-upload.outputs.imagename }}
     secrets:
       
