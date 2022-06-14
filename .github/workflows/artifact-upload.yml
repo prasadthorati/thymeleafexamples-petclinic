@@ -8,6 +8,10 @@ on:
         required: false
       ghcr_token:
         required: false
+    outputs:
+      o-imagename:
+        description: "The first output string"
+        value: ${{ jobs.artifact-upload.outputs.o-imagename }}
 env:
   # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io
