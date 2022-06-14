@@ -1,7 +1,8 @@
 name: Call a reusable workflow and use its outputs
 
 on:
-  workflow_dispatch:
+  push:
+    branches: [ 2.1-master ]
 
 jobs:
   job1:
