@@ -6,7 +6,7 @@ on:
 
 jobs:
   job1:
-    uses: prasadthorati/thymeleafexamples-petclinic/.github/workflows/maven.yml@2.1-master
+    uses: prasadthorati/thymeleafexamples-petclinic/.github/workflows/build.yml@2.1-master
 
   job2:
     runs-on: ubuntu-latest
