@@ -1,42 +1,26 @@
 name: Reusable workflow
-on: 
+
+on:
   workflow_call:
-    
-    secrets:
-      
-      ghcr_username:
-        required: false
-      ghcr_token:
-        required: false
+    # Map the workflow outputs to job outputs
     outputs:
-      o-imagename:
+      firstword:
         description: "The first output string"
-        value: ${{ jobs.artifact-upload.outputs.o-imagename }}
-env:
-  # Use docker.io for Docker Hub if empty
-  REGISTRY: ghcr.io
-  
+        value: ${{ jobs.example_job.outputs.output1 }}
+      secondword:
+        description: "The second output string"
+        value: ${{ jobs.example_job.outputs.output2 }}
+
 jobs:
-  artifact-upload:
+  example_job:
+    name: Generate output
     runs-on: ubuntu-latest
+    # Map the job outputs to step outputs
     outputs:
-      o-imagename: ${{ steps.set-image-name.outputs.imagename }}
-    permissions:
-      contents: read
+      output1: ${{ steps.step1.outputs.firstword }}
+      output2: ${{ steps.step2.outputs.secondword }}
     steps:
-    - name: Login to GitHub Container registry
-      uses: docker/login-action@28218f9b04b4f3f62068d7b6ce6ca5b26e35336c
-      with:
-        registry: ${{ env.REGISTRY }}
-        username: ${{ secrets.GHCR_USERNAME }}
-        password: ${{ secrets.GHCR_TOKEN }}
-    - name: Set Image Name
-      id: set-image-name
-      run: |
-            echo "IMAGE_NAME=${{ env.REGISTRY }}/${GITHUB_REPOSITORY,,}:$(git rev-parse --short HEAD)" >>${GITHUB_ENV}
-            echo "::set-output name=imagename::ghcr.io/${GITHUB_REPOSITORY,,}:$(git rev-parse --short HEAD)"
-    - name: Build & Push Docker image
-      run: |
-          docker build -t ${{ env.IMAGE_NAME }} .
-          docker push ${{ steps.set-image-name.outputs.imagename }}
-          docker images          
+      - id: step1
+        run: echo "::set-output name=firstword::hello"
+      - id: step2
+        run: echo "::set-output name=secondword::world"
