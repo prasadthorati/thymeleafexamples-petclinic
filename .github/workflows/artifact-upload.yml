@@ -1,7 +1,9 @@
 name: Reusable workflow
 on: 
   workflow_call:
-    
+    outputs:
+      o-imagename:
+        value: ${{ jobs.artifact-upload.outputs.imagename }}
     secrets:
       
       ghcr_username:
@@ -14,26 +16,28 @@ env:
   
 jobs:
   artifact-upload:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     outputs:
       o-imagename: ${{ steps.set-image-name.outputs.imagename }}
     permissions:
       contents: read
     steps:
-    - name: Login to GitHub Container registry
-      uses: docker/login-action@28218f9b04b4f3f62068d7b6ce6ca5b26e35336c
-      with:
-        registry: ${{ env.REGISTRY }}
-        username: ${{ secrets.GHCR_USERNAME }}
-        password: ${{ secrets.GHCR_TOKEN }}
+#    - name: Login to GitHub Container registry
+#      uses: docker/login-action@28218f9b04b4f3f62068d7b6ce6ca5b26e35336c
+#      with:
+#        registry: ${{ env.REGISTRY }}
+#        username: ${{ secrets.GHCR_USERNAME }}
+#        password: ${{ secrets.GHCR_TOKEN }}
     - name: Set Image Name
       id: set-image-name
       run: |
             echo "IMAGE_NAME=${{ env.REGISTRY }}/${GITHUB_REPOSITORY,,}:$(git rev-parse --short HEAD)" >>${GITHUB_ENV}
             echo "::set-output name=imagename::ghcr.io/${GITHUB_REPOSITORY,,}:$(git rev-parse --short HEAD)"
-    - name: Build & Push Docker image
-      run: |
-          docker build -t ${{ env.IMAGE_NAME }} .
-          docker push ${{ steps.set-image-name.outputs.imagename }}
-          docker images  
+            echo ${{ jobs.artifact-upload.outputs.imagename }}
+#    - name: Build & Push Docker image
+#      run: |
+#          docker build -t ${{ env.IMAGE_NAME }} .
+#          docker push ${{ steps.set-image-name.outputs.imagename }}
+#          docker images
+          
            
