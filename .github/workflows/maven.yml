@@ -15,8 +15,6 @@ jobs:
       - build
     steps:
     - name: Build & Push Docker image
-      uses: prasadthorati/thymeleafexamples-petclinic/.github/workflows/artifact-upload.yml@2.1-master
-    - name: Build & Push Docker image
       run: echo ${{ jobs.artifact-upload.outputs.imagename }}
     
 #    secrets:
