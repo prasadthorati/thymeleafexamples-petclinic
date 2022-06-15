@@ -22,9 +22,7 @@ jobs:
     needs: 
       - build
       - artifact-upload
+    uses: prasadthorati/thymeleafexamples-petclinic/.github/workflows/deploy.yml@2.1-master
       steps:
-        - name: Checkout Edastakhat k8s
-           uses: actions/checkout@v3
-         - run: echo ${{ jobs.artifact-upload.outputs.o-imagename }}
-         - name: Checkout Edastakhat k8s
-           uses: prasadthorati/thymeleafexamples-petclinic/.github/workflows/deploy.yml@2.1-master
+        - run: echo ${{ jobs.artifact-upload.outputs.o-imagename }}
+           
