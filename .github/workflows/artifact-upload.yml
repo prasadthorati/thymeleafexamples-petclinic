@@ -26,5 +26,5 @@ jobs:
     - name: Push Docker image
       run: |
           docker images 
-          docker push ${{ steps.set-image-name.outputs.imagename }}
+          docker push ${{ needs.build.outputs.o-imagename }}
           docker images          
