@@ -11,7 +11,7 @@ jobs:
       uses: prasadthorati/thymeleafexamples-petclinic/.github/workflows/build.yml@2.1-master
       
   artifact-upload:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: build
     steps:
       - run: echo ${{ needs.build.outputs.output1 }}
