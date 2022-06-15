@@ -7,23 +7,32 @@ on:
         required: false
       ghcr_token:
         required: false
-
+env:
+  # Use docker.io for Docker Hub if empty
+  REGISTRY: ghcr.io
   
 jobs:
   artifact-upload:
     runs-on: self-hosted
+    outputs:
+      o-imagename: ${{ steps.set-image-name.outputs.imagename }}
     permissions:
       contents: read
     steps:
     - name: Login to GitHub Container registry
       uses: docker/login-action@28218f9b04b4f3f62068d7b6ce6ca5b26e35336c
       with:
-        registry: ghcr.io
+        registry: ${{ env.REGISTRY }}
         username: ${{ secrets.GHCR_USERNAME }}
         password: ${{ secrets.GHCR_TOKEN }}
-    
+    - name: Set Image Name
+      id: set-image-name
+      run: |
+          echo "IMAGE_NAME=${{ env.REGISTRY }}/${GITHUB_REPOSITORY,,}:$(git rev-parse --short HEAD)" >>${GITHUB_ENV}
+          echo "::set-output name=imagename::${{ env.REGISTRY }}/${GITHUB_REPOSITORY,,}:$(git rev-parse --short HEAD)"
     - name: Push Docker image
       run: |
           docker images 
-          docker push ${{needs.build.outputs.o-imagename}}
-          docker images          
+          docker push ${{ steps.set-image-name.outputs.imagename }}
+          docker images
+          echo ${{ steps.set-image-name.outputs.imagename }}
