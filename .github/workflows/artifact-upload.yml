@@ -5,14 +5,14 @@ on:
     secrets:
       
       ghcr_username:
-        required: false
+        required: true
       ghcr_token:
-        required: false
+        required: true
 
   
 jobs:
   artifact-upload:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     permissions:
       contents: read
     steps:
