@@ -2,9 +2,9 @@ name: Reusable workflow
 on: 
   workflow_call:
     outputs:
-      firstword:
+      o-imagename:
         description: "The first output string"
-        value: ${{ jobs.build.outputs.output1 }}
+        value: ${{ jobs.build.outputs.o-imagename }}
 
 env:
   # Use docker.io for Docker Hub if empty
@@ -15,7 +15,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     outputs:
-      output1: ${{ steps.set-image-name.outputs.firstword }}
+      o-imagename: ${{ steps.set-image-name.outputs.imagename }}
     strategy:
       matrix:
         maven: [ '3.6.3' ]
@@ -33,7 +33,7 @@ jobs:
         id: set-image-name
         run: |
             echo "IMAGE_NAME=${{ env.REGISTRY }}/${GITHUB_REPOSITORY,,}:$(git rev-parse --short HEAD)" >>${GITHUB_ENV}
-            echo "::set-output name=firstword::${{ env.REGISTRY }}/${GITHUB_REPOSITORY,,}:$(git rev-parse --short HEAD)"
+            echo "::set-output name=o-imagename::${{ env.REGISTRY }}/${GITHUB_REPOSITORY,,}:$(git rev-parse --short HEAD)"
       - name: Build Docker image
         run: |
           docker build -t ${{ env.IMAGE_NAME }} .
