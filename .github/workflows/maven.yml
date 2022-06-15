@@ -14,5 +14,5 @@ jobs:
     runs-on: self-hosted
     needs: build
     steps:
-      - run: echo ${{ needs.build.outputs.imagename }}
+      - run: echo ${{ needs.build.outputs.o-imagename }}
     
