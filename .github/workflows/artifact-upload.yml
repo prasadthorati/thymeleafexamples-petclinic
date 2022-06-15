@@ -1,11 +1,6 @@
 name: Reusable workflow
 on: 
   workflow_call:
-    inputs:
-        o-imagename: 
-          required: true
-          type: string
-    
     secrets:
       
       ghcr_username:
