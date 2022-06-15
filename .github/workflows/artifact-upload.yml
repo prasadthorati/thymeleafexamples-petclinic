@@ -1,10 +1,10 @@
 name: Reusable workflow
 on: 
   workflow_call:
-    outputs:
-      o-imagename:
-        description: "The first output string"
-        value: ${{ jobs.build.outputs.o-imagename }}
+    inputs:
+        o-imagename: 
+          required: false
+          type: string
     
     secrets:
       
