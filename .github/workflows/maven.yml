@@ -14,7 +14,7 @@ jobs:
     needs: build
     uses: prasadthorati/thymeleafexamples-petclinic/.github/workflows/artifact-upload.yml@2.1-master
     with:
-      outputs: ${{ jobs.build.outputs.o-imagename }}
+      outputs: ${{ needs.build.outputs.o-imagename }}
     secrets: 
       ghcr_username: ${{ secrets.GHCR_USERNAME }}
       ghcr_token: ${{ secrets.GHCR_TOKEN }}
