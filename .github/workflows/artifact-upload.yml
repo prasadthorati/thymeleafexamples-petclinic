@@ -5,9 +5,9 @@ on:
     secrets:
       
       ghcr_username:
-        required: true
+        required: false
       ghcr_token:
-        required: true
+        required: false
 
   
 jobs:
