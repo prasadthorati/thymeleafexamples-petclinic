@@ -5,6 +5,7 @@ on:
       o-imagename:
         description: "The first output string"
         value: ${{ jobs.build.outputs.o-imagename }}
+
 env:
   # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io
@@ -32,7 +33,7 @@ jobs:
         id: set-image-name
         run: |
             echo "IMAGE_NAME=${{ env.REGISTRY }}/${GITHUB_REPOSITORY,,}:$(git rev-parse --short HEAD)" >>${GITHUB_ENV}
-            echo "::set-output name=imagename::ghcr.io/${GITHUB_REPOSITORY,,}:$(git rev-parse --short HEAD)"
+            echo "::set-output name=imagename::${{ env.REGISTRY }}/${GITHUB_REPOSITORY,,}:$(git rev-parse --short HEAD)"
       - name: Build Docker image
         run: |
           docker build -t ${{ env.IMAGE_NAME }} .
