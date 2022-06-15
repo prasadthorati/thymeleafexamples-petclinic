@@ -15,8 +15,6 @@ on:
 
   
 jobs:
-  build:
-      uses: prasadthorati/thymeleafexamples-petclinic/.github/workflows/build.yml@2.1-master
   artifact-upload:
     runs-on: self-hosted
     permissions:
@@ -31,7 +29,6 @@ jobs:
     
     - name: Push Docker image
       run: |
-          echo ${{ needs.build.outputs.o-imagename }}
           docker images 
-          docker push ${{ needs.build.outputs.o-imagename }}
+          docker push ${{needs.build.outputs.o-imagename}}
           docker images          
