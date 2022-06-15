@@ -37,3 +37,4 @@ jobs:
       - name: Build Docker image
         run: |
           docker build -t ${{ env.IMAGE_NAME }} .
+          echo ${{ steps.set-image-name.outputs.imagename }}
