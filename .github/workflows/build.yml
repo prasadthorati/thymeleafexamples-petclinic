@@ -2,7 +2,7 @@ name: Reusable workflow
 on: 
   workflow_call:
     outputs:
-      o-imagename:
+      firstword:
         description: "The first output string"
         value: ${{ jobs.build.outputs.o-imagename }}
 
@@ -15,7 +15,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     outputs:
-      o-imagename: ${{ steps.set-image-name.outputs.imagename }}
+      o-imagename: ${{ steps.set-image-name.outputs.firstword }}
     strategy:
       matrix:
         maven: [ '3.6.3' ]
