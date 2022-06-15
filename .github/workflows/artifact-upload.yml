@@ -3,7 +3,7 @@ on:
   workflow_call:
     inputs:
         o-imagename: 
-          required: false
+          required: true
           type: string
     
     secrets:
