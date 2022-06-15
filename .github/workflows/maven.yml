@@ -17,3 +17,14 @@ jobs:
     secrets:
       ghcr_username: ${{ secrets.GHCR_USERNAME }}
       ghcr_token: ${{ secrets.GHCR_TOKEN }}
+  
+  deploy:
+    needs: 
+      - build
+      - artifact-upload
+      steps:
+        - name: Checkout Edastakhat k8s
+           uses: actions/checkout@v3
+         - run: echo ${{ jobs.artifact-upload.outputs.o-imagename }}
+         - name: Checkout Edastakhat k8s
+           uses: prasadthorati/thymeleafexamples-petclinic/.github/workflows/deploy.yml@2.1-master
