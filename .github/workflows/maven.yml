@@ -11,14 +11,9 @@ jobs:
       uses: prasadthorati/thymeleafexamples-petclinic/.github/workflows/build.yml@2.1-master
       
   artifact-upload:
-    runs-on: self-hosted
     needs: build
-    steps:
-      - run: echo ${{ needs.build.outputs.o-imagename }}
-      - name: Checkout Edastakhat UI
-        uses: prasadthorati/thymeleafexamples-petclinic/.github/workflows/artifact-upload.yml@2.1-master
-        with:
-          outputs: ${{ needs.build.outputs.o-imagename }}
-          ghcr_username: ${{ secrets.GHCR_USERNAME }}
-          ghcr_token: ${{ secrets.GHCR_TOKEN }}
+    uses: prasadthorati/thymeleafexamples-petclinic/.github/workflows/artifact-upload.yml@2.1-master
+    with:
+      outputs: ${{ needs.build.outputs.o-imagename }}
+        
     
