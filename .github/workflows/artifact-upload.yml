@@ -2,7 +2,7 @@ name: Reusable workflow
 on: 
   workflow_call:
     outputs:
-      firstword:
+      o-imagename:
         value: ${{ jobs.artifact-upload.outputs.o-imagename }}
     secrets:
       ghcr_username:
