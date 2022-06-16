@@ -1,8 +1,10 @@
 name: Reusable workflow
 on: 
   workflow_call:
+    outputs:
+      firstword:
+        value: ${{ jobs.artifact-upload.outputs.o-imagename }}
     secrets:
-      
       ghcr_username:
         required: false
       ghcr_token:
@@ -35,4 +37,4 @@ jobs:
           docker images 
           docker push ${{ steps.set-image-name.outputs.imagename }}
           docker images
-          echo ${{ steps.set-image-name.outputs.imagename }}
+          echo ${{ jobs.artifact-upload.outputs.o-imagename }}
