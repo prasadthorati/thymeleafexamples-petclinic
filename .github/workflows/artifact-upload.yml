@@ -38,3 +38,13 @@ jobs:
           docker push ${{ steps.set-image-name.outputs.imagename }}
           docker images
           echo ${{ steps.set-image-name.outputs.imagename }}
+    - name: upload deployed image name     
+      run: |
+          echo ${{ steps.set-image-name.outputs.imagename }} > image-name.txt
+          echo ${{ steps.set-image-name.outputs.imagename }}
+          ls
+    - name: upload deployed image name
+      uses: actions/upload-artifact@v3
+      with:
+        name: image-name
+        path: image-name.txt
