@@ -48,6 +48,7 @@ jobs:
           
   artifact-upload:
     runs-on: self-hosted
+    needs: build
     permissions:
       contents: read
       
