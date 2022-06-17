@@ -5,6 +5,11 @@ on:
       o-imagename:
         description: "The first output string"
         value: ${{ jobs.build.outputs.o-imagename }}
+    secrets:
+      ghcr_username:
+        required: false
+      ghcr_token:
+        required: false
 
 env:
   # Use docker.io for Docker Hub if empty
@@ -27,6 +32,7 @@ jobs:
         with:
           java-version: ${{ matrix.java }}
           maven-version: ${{ matrix.maven }}
+          
       - name: Build with Maven
         run: mvn package
       - name: Set Image Name
@@ -34,7 +40,40 @@ jobs:
         run: |
             echo "IMAGE_NAME=${{ env.REGISTRY }}/${GITHUB_REPOSITORY,,}:$(git rev-parse --short HEAD)" >>${GITHUB_ENV}
             echo "::set-output name=imagename::${{ env.REGISTRY }}/${GITHUB_REPOSITORY,,}:$(git rev-parse --short HEAD)"
+            
       - name: Build Docker image
         run: |
           docker build -t ${{ env.IMAGE_NAME }} .
           echo ${{ steps.set-image-name.outputs.imagename }}
+          
+  artifact-upload:
+    runs-on: self-hosted
+    permissions:
+      contents: read
+      
+    steps:
+    - name: Login to GitHub Container registry
+      uses: docker/login-action@28218f9b04b4f3f62068d7b6ce6ca5b26e35336c
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ secrets.GHCR_USERNAME }}
+        password: ${{ secrets.GHCR_TOKEN }}
+        
+    - name: Push Docker image
+      run: |
+          docker images 
+          docker push ${{needs.build.outputs.o-imagename}}
+          docker images
+          echo ${{ steps.set-image-name.outputs.imagename }}
+          
+    - name: upload deployed image name     
+      run: |
+          echo ${{needs.build.outputs.o-imagename}} > image-name.txt
+          echo ${{needs.build.outputs.o-imagename}}
+          ls
+          
+    - name: upload deployed image name
+      uses: actions/upload-artifact@v3
+      with:
+        name: image-name
+        path: image-name.txt
