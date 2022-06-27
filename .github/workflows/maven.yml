@@ -11,7 +11,7 @@ on:
         required: true
         default: 'warning'
       message:
-        description: 'Test scenario tags'
+        description: 'Commit message'
         
 jobs:
   build:
