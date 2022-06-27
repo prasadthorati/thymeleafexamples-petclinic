@@ -5,15 +5,56 @@ name: Java CI with Maven build tool
 
 on:
   workflow_dispatch
-  #push:
-  #  branches: [ 2.1-master ]
+    inputs:
+      logLevel:
+        description: 'Log level'
+        required: true
+        default: 'warning'
+      tags:
+        description: 'Test scenario tags'
+        
 jobs:
   build:
-      uses: prasadthorati/thymeleafexamples-petclinic/.github/workflows/build.yml@2.1-master
-      secrets: 
-        ghcr_username: ${{ secrets.GHCR_USERNAME }}
-        ghcr_token: ${{ secrets.GHCR_TOKEN }}
-      
+    runs-on: ubuntu-latest
+    outputs:
+      o-imagename: ${{ steps.set-image-name.outputs.imagename }}
+    strategy:
+      matrix:
+        maven: [ '3.6.3' ]
+        java: [ '11']
+        
+    steps:
+      - name: Setup Maven Action
+        uses: s4u/setup-maven-action@v1.2.1
+        with:
+          java-version: ${{ matrix.java }}
+          maven-version: ${{ matrix.maven }}
+          
+      - name: Build with Maven
+        run: mvn package
+      - name: Set Image Name
+        id: set-image-name
+        run: |
+            echo "IMAGE_NAME=${{ env.REGISTRY }}/${GITHUB_REPOSITORY,,}:$(git rev-parse --short HEAD)" >>${GITHUB_ENV}
+            echo "::set-output name=imagename::${{ env.REGISTRY }}/${GITHUB_REPOSITORY,,}:$(git rev-parse --short HEAD)"
+            
+      - name: Build Docker image
+        run: |
+          docker build -t ${{ env.IMAGE_NAME }} .
+          echo ${{ steps.set-image-name.outputs.imagename }}
+          
+      - run: |
+          echo "Log level: ${{ github.event.inputs.loglevel }}"
+          echo "tags: ${{ github.event.inputs.tags }}"
+#  push:
+#    branches: [ 2.1-master ]
+#jobs:
+#  build:
+#      uses: prasadthorati/thymeleafexamples-petclinic/.github/workflows/build.yml@2.1-master
+#      secrets: 
+#        ghcr_username: ${{ secrets.GHCR_USERNAME }}
+#        ghcr_token: ${{ secrets.GHCR_TOKEN }}
+#      
 #  artifact-upload:
 #    needs: build
 #    uses: prasadthorati/thymeleafexamples-petclinic/.github/workflows/artifact-upload.yml@2.1-master
