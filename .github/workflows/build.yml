@@ -18,7 +18,7 @@ permissions:
   contents: read
 jobs:
   build:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     outputs:
       o-imagename: ${{ steps.set-image-name.outputs.imagename }}
     strategy:
@@ -46,35 +46,35 @@ jobs:
           docker build -t ${{ env.IMAGE_NAME }} .
           echo ${{ steps.set-image-name.outputs.imagename }}
           
-  artifact-upload:
-    runs-on: self-hosted
-    needs: build
-    permissions:
-      contents: read
+#  artifact-upload:
+#    runs-on: self-hosted
+#    needs: build
+#    permissions:
+#      contents: read
       
-    steps:
-    - name: Login to GitHub Container registry
-      uses: docker/login-action@28218f9b04b4f3f62068d7b6ce6ca5b26e35336c
-      with:
-        registry: ${{ env.REGISTRY }}
-        username: ${{ secrets.GHCR_USERNAME }}
-        password: ${{ secrets.GHCR_TOKEN }}
-        
-    - name: Push Docker image
-      run: |
-          docker images 
-          docker push ${{needs.build.outputs.o-imagename}}
-          docker images
-          echo ${{ steps.set-image-name.outputs.imagename }}
-          
-    - name: upload deployed image name     
-      run: |
-          echo ${{needs.build.outputs.o-imagename}} > image-name.txt
-          echo ${{needs.build.outputs.o-imagename}}
-          ls
-          
-    - name: upload deployed image name
-      uses: actions/upload-artifact@v3
-      with:
-        name: image-name
-        path: image-name.txt
+#    steps:
+#    - name: Login to GitHub Container registry
+#      uses: docker/login-action@28218f9b04b4f3f62068d7b6ce6ca5b26e35336c
+#      with:
+#        registry: ${{ env.REGISTRY }}
+#        username: ${{ secrets.GHCR_USERNAME }}
+#        password: ${{ secrets.GHCR_TOKEN }}
+#        
+#    - name: Push Docker image
+#      run: |
+#          docker images 
+#          docker push ${{needs.build.outputs.o-imagename}}
+#          docker images
+#          echo ${{ steps.set-image-name.outputs.imagename }}
+#          
+#    - name: upload deployed image name     
+#      run: |
+#          echo ${{needs.build.outputs.o-imagename}} > image-name.txt
+#          echo ${{needs.build.outputs.o-imagename}}
+#          ls
+#          
+#    - name: upload deployed image name
+#      uses: actions/upload-artifact@v3
+#      with:
+#        name: image-name
+#        path: image-name.txt
