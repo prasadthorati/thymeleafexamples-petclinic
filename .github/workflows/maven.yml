@@ -1,24 +1,75 @@
-# Controls when the workflow will run
+# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
+
+name: Java CI with Maven build tool
+
 on:
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
     inputs:
-      trigger:
-        description: 'Trigger event'     
+      logLevel:
+        description: 'Log level'
         required: true
-        default: 'manual'
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+        default: 'warning'  
 jobs:
-  Trigger:
-    name: ${{ github.event.inputs.trigger }}
-    
-    # The type of runner that the job will run on
+  build:
     runs-on: ubuntu-latest
-    # Steps represent a sequence of tasks that will be executed as part of the job
+    outputs:
+      o-imagename: ${{ steps.set-image-name.outputs.imagename }}
+    strategy:
+      matrix:
+        maven: [ '3.6.3' ]
+        java: [ '11']
+        
     steps:
-      - name: Show trigger source
+      - name: Setup Maven Action
+        uses: s4u/setup-maven-action@v1.2.1
+        with:
+          java-version: ${{ matrix.java }}
+          maven-version: ${{ matrix.maven }}
+          
+      - name: Build with Maven
+        run: mvn package
+      - name: Set Image Name
+        id: set-image-name
         run: |
-            echo "Trigger source: ${{ github.event.inputs.trigger }}"   
-#```
-#I can run this manual at actions tab or my python-based REST API (PyGithub) to start my nightly. I do this in python and in a separate repository (for my organization) to handle not thousand workflow files.   
+            echo "IMAGE_NAME=${{ env.REGISTRY }}/${GITHUB_REPOSITORY,,}:$(git rev-parse --short HEAD)" >>${GITHUB_ENV}
+            echo "::set-output name=imagename::${{ env.REGISTRY }}/${GITHUB_REPOSITORY,,}:$(git rev-parse --short HEAD)"
+            
+      - name: Build Docker image
+        run: |
+          docker build -t ${{ env.IMAGE_NAME }} .
+          echo ${{ steps.set-image-name.outputs.imagename }}
+          
+      - run: |
+          echo "Log level: ${{ github.event.inputs.loglevel }}"
+          
+#  push:
+#    branches: [ 2.1-master ]
+#jobs:
+#  build:
+#      uses: prasadthorati/thymeleafexamples-petclinic/.github/workflows/build.yml@2.1-master
+#      secrets: 
+#        ghcr_username: ${{ secrets.GHCR_USERNAME }}
+#        ghcr_token: ${{ secrets.GHCR_TOKEN }}
+#      
+#  artifact-upload:
+#    needs: build
+#    uses: prasadthorati/thymeleafexamples-petclinic/.github/workflows/artifact-upload.yml@2.1-master
+#    secrets: 
+#      ghcr_username: ${{ secrets.GHCR_USERNAME }}
+#      ghcr_token: ${{ secrets.GHCR_TOKEN }}
+#  image-upload:
+#    runs-on: self-hosted
+#    needs:
+#      - build
+#      - artifact-upload
+#   steps:
+#      - run: |
+#          echo ${{ needs.artifact-upload.outputs.o-imagename }} > image-name.txt
+#          echo ${{ needs.artifact-upload.outputs.o-imagename }}
+#          ls
+#      - name: upload deployed image name
+#        uses: actions/upload-artifact@v3
+#        with:
+#          name: image-name
+#          path: image-name.txt   
