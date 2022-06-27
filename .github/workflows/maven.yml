@@ -4,8 +4,9 @@
 name: Java CI with Maven build tool
 
 on:
-  push:
-    branches: [ 2.1-master ]
+  workflow_dispatch
+  #push:
+  #  branches: [ 2.1-master ]
 jobs:
   build:
       uses: prasadthorati/thymeleafexamples-petclinic/.github/workflows/build.yml@2.1-master
