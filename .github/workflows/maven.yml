@@ -40,8 +40,8 @@ jobs:
           docker build -t ${{ env.IMAGE_NAME }} .
           echo ${{ steps.set-image-name.outputs.imagename }}
           
-      - run: |
-          echo "Log level: ${{ github.event.inputs.loglevel }}"
+#      - run: |
+#          echo "Log level: ${{ github.event.inputs.loglevel }}"
           
 #  push:
 #    branches: [ 2.1-master ]
