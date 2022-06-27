@@ -10,6 +10,10 @@ on:
         description: 'Log level'
         required: true
         default: 'warning'
+      message:
+        description: 'Commit message'
+        required: true
+        default: '${{ github.event.head_commit.message }}'
         
 jobs:
   build:
@@ -43,6 +47,7 @@ jobs:
           
       - run: |
           echo "Log level: ${{ github.event.inputs.loglevel }}"
+          echo "message: ${{ github.event.inputs.message }}"
           
 #  push:
 #    branches: [ 2.1-master ]
