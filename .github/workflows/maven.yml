@@ -10,7 +10,7 @@ on:
         description: 'Log level'
         required: true
         default: 'warning'
-      tags:
+      message:
         description: 'Test scenario tags'
         
 jobs:
@@ -45,7 +45,7 @@ jobs:
           
       - run: |
           echo "Log level: ${{ github.event.inputs.loglevel }}"
-          echo "tags: ${{ github.event.inputs.tags }}"
+          echo "message: ${{ github.event.inputs.message }}"
 #  push:
 #    branches: [ 2.1-master ]
 #jobs:
