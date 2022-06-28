@@ -1,60 +1,35 @@
 # This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
 # For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
 
-name: Java CI with Maven
-
+name: Java CI with Maven build tool
 on:
-  push:
-    branches: [ self-hosted ]
-
+  workflow_dispatch:
+    
 jobs:
-  
   build:
-    runs-on: self-hosted
-    outputs: 
-       output1: ${{ steps.COMMIT_ID.outputs.COMMIT_ID }}
-    strategy:
-      matrix:
-        maven: [ '3.6.3' ]
-        java: [ '11']
-    steps:
-      - name: Setup Maven Action
-        uses: s4u/setup-maven-action@v1.4.0
-        with:
-          java-version: ${{ matrix.java }}
-          maven-version: ${{ matrix.maven }}
-      - id: COMMIT_ID
-        run: |
-          COMMIT_ID=`git rev-parse --short HEAD`
-          echo "::set-output name=COMMIT_ID::$COMMIT_ID"
-      - run: mvn package --file pom.xml
-      - name: Edastakhat UI Build & Pushing
-        run: | 
-          echo commitId:${{ steps.COMMIT_ID.outputs.COMMIT_ID }}
-          echo ${{ secrets.PRASAD_PASS}} | sudo -S docker build -t temp/petclinic:${{ steps.COMMIT_ID.outputs.COMMIT_ID }} .
-        
-#          
-#      - id: TAG
-#        run: |
-#          export COMMIT_ID=$(git rev-parse --short HEAD)
-#          echo commitId:$COMMIT_ID
-#      - name: Edastakhat UI Build
-#        run: |
-#            export COMMIT_ID=$(git rev-parse --short HEAD)
-#            echo commitId:$COMMIT_ID
-#            echo ${{ secrets.NSDL_USER_PASS}} | sudo -S docker build -t temp/petclinic:$COMMIT_ID .
-#    - name: Edastakhat UI Build & Pushing
-#      run: |
-#            export COMMIT_ID=$(git rev-parse --short HEAD)
-#            echo commitId:$COMMIT_ID
-#            echo ${{ secrets.NSDL_USER_PASS}} | sudo -S docker build -t petclinic:$COMMIT_ID .
-    #- name: Build with Maven
-      #run: mvn package --file pom.xml
-    #- name: push to dockerhub
-      #uses: mr-smithers-excellent/docker-build-push@v5
-      #with:
-        #image: larasai/petclinic
-        #tags: v1, latest
-        #registry: docker.io
-        #username: ${{ secrets.DOCKER_USERNAME }}
-        #password: ${{ secrets.DOCKER_PASSWORD }}
+      uses: prasadthorati/thymeleafexamples-petclinic/.github/workflows/build.yml@2.1-master
+      secrets: 
+        ghcr_username: ${{ secrets.GHCR_USERNAME }}
+        ghcr_token: ${{ secrets.GHCR_TOKEN }}
+      
+#  artifact-upload:
+#    needs: build
+#    uses: prasadthorati/thymeleafexamples-petclinic/.github/workflows/artifact-upload.yml@2.1-master
+#    secrets: 
+#      ghcr_username: ${{ secrets.GHCR_USERNAME }}
+#      ghcr_token: ${{ secrets.GHCR_TOKEN }}
+#  image-upload:
+#    runs-on: self-hosted
+#    needs:
+#      - build
+#      - artifact-upload
+#   steps:
+#      - run: |
+#          echo ${{ needs.artifact-upload.outputs.o-imagename }} > image-name.txt
+#          echo ${{ needs.artifact-upload.outputs.o-imagename }}
+#          ls
+#      - name: upload deployed image name
+#        uses: actions/upload-artifact@v3
+#        with:
+#          name: image-name
+#          path: image-name.txt   
