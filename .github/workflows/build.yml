@@ -43,7 +43,10 @@ jobs:
             
       - name: Build Docker image
         run: |
-          docker build -t ${{ env.IMAGE_NAME }} .
+          aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/e8e2a7i6
+          docker build -t demo_gradle123 .
+          docker tag demo_gradle123:latest public.ecr.aws/e8e2a7i6/demo_gradle123:latest
+          docker push public.ecr.aws/e8e2a7i6/demo_gradle123:latest
           echo ${{ steps.set-image-name.outputs.imagename }}
           
 #  artifact-upload:
